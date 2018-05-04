@@ -41,7 +41,7 @@ int main(){
 
 
 	//불량동전을 초기화한다. 이때 불량동전의 발생 확률 = 10
-	initialize(60);
+	initialize(5);
 
 	for (i = 0; i < 99; i=i+3) {
 		a[0] = i;
@@ -106,6 +106,316 @@ int main(){
 			break;
 		}
 
+		if (i == 6) {
+			if (unsure_count >= 1) {
+				for (i = 9; i < 99; i = i + 9) {
+					for (j = 0; j < 3; j++) {
+						a3[j] = i + j;
+						b3[j] = i + 3 + j;
+						c3[j] = i + 6 + j;
+					}
+					switch (balance(a3, b3, c3)) {
+					case ONE:	// b와 c에는 1개 이상의 불량 동전이 존재
+						switch (dummySet(a3)) {
+						case ONE:	// 7 5 5 // b와 c는 모두 불량 동전
+							compareAllCase(ONE, 0);
+							allBadCoin(b3);
+							allBadCoin(c3);
+							break;
+						case TWO:	// b와 c는 모두 불량 동전
+							compareAllCase(TWO, 0);
+							allBadCoin(b3);
+							allBadCoin(c3);
+							break;
+						case THREE:	// b와 c는 모두 불량 동전
+							compareAllCase(THREE, 0);
+							allBadCoin(b3);
+							allBadCoin(c3);
+							break;
+						case EQUAL_ONETWO:
+							compareAllCase(EQUAL_ONETWO, 0);
+							compareAllCase(dummySet(b3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_ONETHREE:
+							compareAllCase(EQUAL_ONETHREE, 0);
+							compareAllCase(dummySet(b3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_TWOTHREE:
+							compareAllCase(EQUAL_TWOTHREE, 0);
+							compareAllCase(dummySet(b3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_ALL:
+							allNormalCoin(a3);
+							compareAllCase(dummySet(b3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						default:
+							printf("정의되지 않은 결과");
+							break;
+						}
+						break;
+					case TWO:
+						switch (dummySet(b3)) {
+						case ONE:	// a와 c는 모두 불량 동전
+							compareAllCase(ONE, 0);
+							allBadCoin(a3);
+							allBadCoin(c3);
+							break;
+						case TWO:	// a와 c는 모두 불량 동전
+							compareAllCase(TWO, 0);
+							allBadCoin(a3);
+							allBadCoin(c3);
+							break;
+						case THREE:	// a와 c는 모두 불량 동전
+							compareAllCase(THREE, 0);
+							allBadCoin(a3);
+							allBadCoin(c3);
+							break;
+						case EQUAL_ONETWO:
+							compareAllCase(EQUAL_ONETWO, 0);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_ONETHREE:
+							compareAllCase(EQUAL_ONETHREE, 0);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_TWOTHREE:
+							compareAllCase(EQUAL_TWOTHREE, 0);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_ALL:
+							allNormalCoin(b3);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						default:
+							printf("정의되지 않은 결과");
+							break;
+						}
+						break;
+					case THREE:
+						switch (dummySet(c3)) {
+						case ONE:	// a와 b는 모두 불량 동전
+							compareAllCase(ONE, 0);
+							allBadCoin(a3);
+							allBadCoin(b3);
+							break;
+						case TWO:	// a와 b는 모두 불량 동전
+							compareAllCase(TWO, 0);
+							allBadCoin(a3);
+							allBadCoin(b3);
+							break;
+						case THREE:	// a와 b는 모두 불량 동전
+							compareAllCase(THREE, 0);
+							allBadCoin(a3);
+							allBadCoin(b3);
+							break;
+						case EQUAL_ONETWO:
+							compareAllCase(EQUAL_ONETWO, 0);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						case EQUAL_ONETHREE:
+							compareAllCase(EQUAL_ONETHREE, 0);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						case EQUAL_TWOTHREE:
+							compareAllCase(EQUAL_TWOTHREE, 0);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						case EQUAL_ALL:
+							allNormalCoin(c3);
+							compareAllCase(dummySet(a3), 1);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						default:
+							printf("정의되지 않은 결과");
+							break;
+						}
+						break;
+					case EQUAL_ONETWO:	 // c에는 1개 이상의 불량 동전이 존재
+						switch (dummySet(a3)) {
+						case ONE:	// 755 // c는 모두 불량
+							compareAllCase(ONE, 0);
+							compareAllCase(dummySet(b3), 0);
+							allBadCoin(c3);
+							break;
+						case TWO:	// c는 모두 불량
+							compareAllCase(TWO, 0);
+							compareAllCase(dummySet(b3), 0);
+							allBadCoin(c3);
+							break;
+						case THREE:	// c는 모두 불량
+							compareAllCase(THREE, 0);
+							compareAllCase(dummySet(b3), 0);
+							allBadCoin(c3);
+							break;
+						case EQUAL_ONETWO:	// 7 7 5
+							compareAllCase(EQUAL_ONETWO, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_ONETHREE:
+							compareAllCase(EQUAL_ONETHREE, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_TWOTHREE:
+							compareAllCase(EQUAL_TWOTHREE, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						case EQUAL_ALL:	// 7 7 7
+							allNormalCoin(a3);
+							allNormalCoin(b3);
+							compareAllCase(dummySet(c3), 1);
+							break;
+						default:
+							printf("정의되지 않은 결과");
+							break;
+						}
+						break;
+					case EQUAL_ONETHREE:	// b에는 1개 이상의 불량 동전이 존재
+						switch (dummySet(a3)) {
+						case ONE:	// b는 모두 불량
+							compareAllCase(ONE, 0);
+							compareAllCase(dummySet(c3), 0);
+							allBadCoin(b3);
+							break;
+						case TWO:	// b는 모두 불량
+							compareAllCase(TWO, 0);
+							compareAllCase(dummySet(c3), 0);
+							allBadCoin(b3);
+							break;
+						case THREE:	// b는 모두 불량
+							compareAllCase(THREE, 0);
+							compareAllCase(dummySet(c3), 0);
+							allBadCoin(b3);
+							break;
+						case EQUAL_ONETWO:	// 7 7 5
+							compareAllCase(EQUAL_ONETWO, 0);
+							compareAllCase(dummySet(c3), 0);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						case EQUAL_ONETHREE:
+							compareAllCase(EQUAL_ONETHREE, 0);
+							compareAllCase(dummySet(c3), 0);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						case EQUAL_TWOTHREE:
+							compareAllCase(EQUAL_TWOTHREE, 0);
+							compareAllCase(dummySet(c3), 0);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						case EQUAL_ALL:	// 7 7 7
+							allNormalCoin(a3);
+							allNormalCoin(c3);
+							compareAllCase(dummySet(b3), 1);
+							break;
+						default:
+							printf("정의되지 않은 결과");
+							break;
+						}
+						break;
+					case EQUAL_TWOTHREE:	// a에는 1개 이상의 불량 동전이 존재
+						switch (dummySet(b3)) {
+						case ONE:	// a는 모두 불량
+							compareAllCase(ONE, 0);
+							compareAllCase(dummySet(c3), 0);
+							allBadCoin(a3);
+							break;
+						case TWO:	// a는 모두 불량
+							compareAllCase(TWO, 0);
+							compareAllCase(dummySet(c3), 0);
+							allBadCoin(a3);
+							break;
+						case THREE:	// a는 모두 불량
+							compareAllCase(THREE, 0);
+							compareAllCase(dummySet(c3), 0);
+							allBadCoin(a3);
+							break;
+						case EQUAL_ONETWO: // 7 7 5
+							compareAllCase(EQUAL_ONETWO, 0);
+							compareAllCase(dummySet(c3), 0);
+							compareAllCase(dummySet(a3), 1);
+							break;
+						case EQUAL_ONETHREE:
+							compareAllCase(EQUAL_ONETHREE, 0);
+							compareAllCase(dummySet(c3), 0);
+							compareAllCase(dummySet(a3), 1);
+							break;
+						case EQUAL_TWOTHREE:
+							compareAllCase(EQUAL_TWOTHREE, 0);
+							compareAllCase(dummySet(c3), 0);
+							compareAllCase(dummySet(a3), 1);
+							break;
+						case EQUAL_ALL:	// 7 7 7
+							allNormalCoin(b3);
+							allNormalCoin(c3);
+							compareAllCase(dummySet(a3), 1);
+							break;
+						default:
+							printf("정의되지 않은 결과");
+							break;
+						}
+						break;
+					case EQUAL_ALL:
+						switch (dummySet(a3)) {
+						case ONE:
+							compareAllCase(ONE, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 0);
+							break;
+						case TWO:
+							compareAllCase(TWO, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 0);
+							break;
+						case THREE:
+							compareAllCase(THREE, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 0);
+							break;
+						case EQUAL_ONETWO:
+							compareAllCase(EQUAL_ONETWO, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 0);
+							break;
+						case EQUAL_ONETHREE:
+							compareAllCase(EQUAL_ONETHREE, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 0);
+							break;
+						case EQUAL_TWOTHREE:
+							compareAllCase(EQUAL_TWOTHREE, 0);
+							compareAllCase(dummySet(b3), 0);
+							compareAllCase(dummySet(c3), 0);
+							break;
+						case EQUAL_ALL:
+							unsure_coin_3compare[unsure_count_3compare] = a3[0];
+							unsure_count_3compare = unsure_count_3compare + 1;
+							break;
+						default:
+							printf("정의되지 않은 결과");
+							break;
+						}
+						break;
+					default:
+						printf("정의되지 않은 결과");
+						break;
+					}
+				}
+				break;
+			}
+		}
 		if (i == 33 ) {
 			if (unsure_count >= 5) {
 				for (i = 36; i < 99; i = i + 9) {
