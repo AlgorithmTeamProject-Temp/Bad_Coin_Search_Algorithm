@@ -53,9 +53,9 @@ int set3[4] = { 0, 0, 0, -1 };
 
 extern int coin[];
 
-int main(){
+int main() {
 	//불량동전을 초기화한다. 이때 불량동전의 발생 확률 = 10
-	initialize(2);
+	initialize(98);
 
 	compare1Init();
 	confirmCompare1();
@@ -67,7 +67,7 @@ int main(){
 	bad_coin[bad_count] = -1;
 	b[0] = -1;
 	c[0] = -1;
-	
+
 	balance(bad_coin, b, c);
 
 	return 0;
@@ -76,6 +76,7 @@ int main(){
 void compare1Init() {
 	int balance_result;
 	int i = 0, j = 0, k = 0;
+	int bool_end = FALSE;
 
 	for (i = 0; i < 99; i = i + 3) {
 		a[0] = i;
@@ -92,7 +93,8 @@ void compare1Init() {
 		}
 
 		if (i == 6) {
-			if (unsure_count_1compare >= 1) {
+			if (unsure_count_1compare >= 2) {
+				printf("인덱스 9에서 넘어갑니다.");
 				too_fast_convert_3compare = TRUE;
 				for (i = 9; i < 99; i = i + 9) {
 					for (j = 0; j < 3; j++) {
@@ -106,7 +108,8 @@ void compare1Init() {
 			}
 		}
 		else if (i == 15) {
-			if (unsure_count_1compare >= 2) {
+			if (unsure_count_1compare >= 3) {
+				printf("인덱스 18에서 넘어갑니다.");
 				for (i = 18; i < 99; i = i + 9) {
 					for (j = 0; j < 3; j++) {
 						a3[j] = i + j;
@@ -120,6 +123,7 @@ void compare1Init() {
 		}
 		else if (i == 33) {
 			if (unsure_count_1compare >= 5) {
+				printf("인덱스 36에서 넘어갑니다.");
 				for (i = 36; i < 99; i = i + 9) {
 					for (j = 0; j < 3; j++) {
 						a3[j] = i + j;
@@ -235,7 +239,7 @@ void confirmCompare1() {
 				after3BadCoin(c[0]);
 				break;
 			case EQUAL_ONETHREE:
-				after3BadCoin(c[0]);
+				after3NormalCoin(c[0]);
 				after3BadCoin(b[0]);
 				break;
 			case EQUAL_ALL:
@@ -250,27 +254,22 @@ void confirmCompare1() {
 
 		if (double_unsure_count != 0) {
 			if (percentage >= 60) {
-
-				for (i = 0; i < 3; i++) {
-					b3[i] = bad_coin[i];
-					c3[i] = bad_coin[i + 3];
-				}
+				b[0] = bad_coin[0];
+				c[0] = bad_coin[1];
 
 				for (j = 0; j < double_unsure_count; j = j + 3) {
-					a3[0] = double_unsure_1compare[j];
-					a3[1] = double_unsure_1compare[j + 1];
-					a3[2] = double_unsure_1compare[j + 2];
+					a[0] = double_unsure_1compare[j];
 
-					switch (balance(b3, c3, a3)) {
+					switch (balance(b, c, a)) {
 					case THREE:
-						after3NormalCoin(a3[0]);
-						after3NormalCoin(a3[1]);
-						after3NormalCoin(a3[2]);
+						after3NormalCoin(double_unsure_1compare[j]);
+						after3NormalCoin(double_unsure_1compare[j + 1]);
+						after3NormalCoin(double_unsure_1compare[j + 2]);
 						break;
 					case EQUAL_ALL:
-						after3BadCoin(a3[0]);
-						after3BadCoin(a3[1]);
-						after3BadCoin(a3[2]);
+						after3BadCoin(double_unsure_1compare[j]);
+						after3BadCoin(double_unsure_1compare[j + 1]);
+						after3BadCoin(double_unsure_1compare[j + 2]);
 						break;
 					default:
 						printf("정의되지 않은 결과");
@@ -279,26 +278,22 @@ void confirmCompare1() {
 				}
 			}
 			else {
-				for (i = 0; i < 3; i++) {
-					b3[i] = normal_coin[i];
-					c3[i] = normal_coin[i + 3];
-				}
+				b[0] = normal_coin[0];
+				c[0] = normal_coin[1];
 
 				for (j = 0; j < double_unsure_count; j = j + 3) {
-					a3[0] = double_unsure_1compare[j];
-					a3[1] = double_unsure_1compare[j + 1];
-					a3[2] = double_unsure_1compare[j + 2];
+					a[0] = double_unsure_1compare[j];
 
-					switch (balance(b3, c3, a3)) {
+					switch (balance(b, c, a)) {
 					case EQUAL_ONETWO:
-						after3BadCoin(a3[0]);
-						after3BadCoin(a3[1]);
-						after3BadCoin(a3[2]);
+						after3BadCoin(double_unsure_1compare[j]);
+						after3BadCoin(double_unsure_1compare[j + 1]);
+						after3BadCoin(double_unsure_1compare[j + 2]);
 						break;
 					case EQUAL_ALL:
-						after3NormalCoin(a3[0]);
-						after3NormalCoin(a3[1]);
-						after3NormalCoin(a3[2]);
+						after3NormalCoin(double_unsure_1compare[j]);
+						after3NormalCoin(double_unsure_1compare[j + 1]);
+						after3NormalCoin(double_unsure_1compare[j + 2]);
 						break;
 					default:
 						printf("정의되지 않은 결과");
@@ -424,7 +419,7 @@ void confirmCompare3andLastIndex() {
 		a3[1] = normal_coin[1];
 		a3[2] = 99;
 
-		switch (dummySet(a3)) {	// 경우의 수 : EQUAL_ONETWO, EQUAL_ALL	
+		switch (dummySet(a3)) {	// 경우의 수 : EQUAL_ONETWO, EQUAL_ALL		
 		case EQUAL_ONETWO:
 			bad_coin[bad_count] = 99;
 			bad_count = bad_count + 1;
@@ -542,6 +537,7 @@ void allCase(int result, int check) {
 
 void oneHeavyCase(int set1[], int set2[], int set3[]) {
 	int result = dummySet(set1);
+
 	if (result == ONE || result == TWO || result == THREE) {
 		allCase(result, 0);
 		allBadCoin(set2);
@@ -553,7 +549,7 @@ void oneHeavyCase(int set1[], int set2[], int set3[]) {
 		allCase(dummySet(set3), 1);
 	}
 	else {	// EQUAL_ALL
-		allNormalCoin(a3);
+		allNormalCoin(set1);
 		allCase(dummySet(set2), 1);
 		allCase(dummySet(set3), 1);
 	}
