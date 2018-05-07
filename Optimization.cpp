@@ -55,7 +55,7 @@ extern int coin[];
 
 int main() {
 	//불량동전을 초기화한다. 이때 불량동전의 발생 확률 = 10
-	initialize(98);
+	initialize(40);
 
 	compare1Init();
 	confirmCompare1();
@@ -78,7 +78,7 @@ void compare1Init() {
 	int i = 0, j = 0, k = 0;
 	int bool_end = FALSE;
 
-	for (i = 0; i < 99; i = i + 3) {
+	for (i; i < 99; i = i + 3) {
 		a[0] = i;
 		b[0] = i + 1;
 		c[0] = i + 2;
@@ -94,7 +94,6 @@ void compare1Init() {
 
 		if (i == 6) {
 			if (unsure_count_1compare >= 2) {
-				printf("인덱스 9에서 넘어갑니다.");
 				too_fast_convert_3compare = TRUE;
 				for (i = 9; i < 99; i = i + 9) {
 					for (j = 0; j < 3; j++) {
@@ -103,28 +102,31 @@ void compare1Init() {
 						c3[j] = i + 6 + j;
 					}
 					compare3Init();
+
+					if (i == 27 && (((float)(bad_count + normal_count) / (float)(i + 9)) * 100) >= 23) {
+						if ((bad_count / (bad_count + normal_count) * 100) <= 77 && (bad_count / (bad_count + normal_count) * 100) >= 23) {
+							bool_end = TRUE;
+							break;
+						}
+					}
+					if (i == 27 && ((float)bad_count / (float)(bad_count + normal_count) * 100) <= 77 && ((float)bad_count / (float)(bad_count + normal_count) * 100) >= 23) {
+						bool_end = TRUE;
+						break;
+					}
 				}
-				break;
+				if (bool_end == FALSE) {
+					break;
+				}
+				else {
+					i = i + 6;
+					continue;
+				}
 			}
 		}
 		else if (i == 15) {
 			if (unsure_count_1compare >= 3) {
 				printf("인덱스 18에서 넘어갑니다.");
 				for (i = 18; i < 99; i = i + 9) {
-					for (j = 0; j < 3; j++) {
-						a3[j] = i + j;
-						b3[j] = i + 3 + j;
-						c3[j] = i + 6 + j;
-					}
-					compare3Init();
-				}
-				break;
-			}
-		}
-		else if (i == 33) {
-			if (unsure_count_1compare >= 5) {
-				printf("인덱스 36에서 넘어갑니다.");
-				for (i = 36; i < 99; i = i + 9) {
 					for (j = 0; j < 3; j++) {
 						a3[j] = i + j;
 						b3[j] = i + 3 + j;
