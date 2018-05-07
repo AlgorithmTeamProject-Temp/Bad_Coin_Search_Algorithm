@@ -53,7 +53,7 @@ int set3[4] = { 0, 0, 0, -1 };
 
 extern int coin[];
 
-int main() {
+int main(){
 	//불량동전을 초기화한다. 이때 불량동전의 발생 확률 = 10
 	initialize(40);
 
@@ -91,7 +91,7 @@ void compare1Init() {
 			unsure_1compare[unsure_count_1compare] = a[0];
 			unsure_count_1compare++;
 		}
-
+		
 		if (i == 6) {
 			if (unsure_count_1compare >= 2) {
 				too_fast_convert_3compare = TRUE;
@@ -102,14 +102,14 @@ void compare1Init() {
 						c3[j] = i + 6 + j;
 					}
 					compare3Init();
-
-					if (i == 27 && (((float)(bad_count + normal_count) / (float)(i + 9)) * 100) >= 23) {
+					
+					if (i == 18 && (((float)(bad_count + normal_count) / (float)(i + 9)) * 100) >= 23) {
 						if ((bad_count / (bad_count + normal_count) * 100) <= 77 && (bad_count / (bad_count + normal_count) * 100) >= 23) {
 							bool_end = TRUE;
 							break;
 						}
 					}
-					if (i == 27 && ((float)bad_count / (float)(bad_count + normal_count) * 100) <= 77 && ((float)bad_count / (float)(bad_count + normal_count) * 100) >= 23) {
+					if (i == 18 && ((float)bad_count / (float)(bad_count + normal_count) * 100) <= 77 && ((float)bad_count / (float)(bad_count + normal_count) * 100) >= 23) {
 						bool_end = TRUE;
 						break;
 					}
@@ -118,7 +118,7 @@ void compare1Init() {
 					break;
 				}
 				else {
-					i = i + 6;
+					i=i+6;
 					continue;
 				}
 			}
@@ -165,7 +165,7 @@ void confirmCompare1() {
 			b[0] = unsure_1compare[i + 1];
 			c[0] = unsure_1compare[i + 2];
 
-			switch (balance(a, b, c)) {
+			switch (balance(a, b, c)) {	
 			case ONE:
 				after3NormalCoin(a[0]);
 				after3BadCoin(b[0]);
@@ -200,7 +200,7 @@ void confirmCompare1() {
 				double_unsure_1compare[double_unsure_count] = a[0];
 				double_unsure_1compare[double_unsure_count + 1] = b[0];
 				double_unsure_1compare[double_unsure_count + 2] = c[0];
-				double_unsure_count = double_unsure_count + 3;
+				double_unsure_count=double_unsure_count+3;
 				break;
 			default:
 				printf("정의되지 않은 결과");
@@ -213,8 +213,8 @@ void confirmCompare1() {
 			a[0] = normal_coin[0];
 			b[0] = normal_coin[1];
 			c[0] = unsure_1compare[unsure_count_1compare - 1];
-
-			switch (balance(a, b, c)) {
+			
+			switch (balance(a, b, c)) {	
 			case EQUAL_ONETWO:
 				after3BadCoin(c[0]);
 				break;
@@ -230,8 +230,8 @@ void confirmCompare1() {
 			a[0] = normal_coin[0];
 			b[0] = unsure_1compare[unsure_count_1compare - 2];
 			c[0] = unsure_1compare[unsure_count_1compare - 1];
-
-			switch (balance(a, b, c)) {
+			
+			switch (balance(a, b, c)) {	
 			case ONE:
 				after3BadCoin(b[0]);
 				after3BadCoin(c[0]);
@@ -256,17 +256,17 @@ void confirmCompare1() {
 
 		if (double_unsure_count != 0) {
 			if (percentage >= 60) {
-				b[0] = bad_coin[0];
-				c[0] = bad_coin[1];
+					b[0] = bad_coin[0];
+					c[0] = bad_coin[1];
 
 				for (j = 0; j < double_unsure_count; j = j + 3) {
 					a[0] = double_unsure_1compare[j];
-
+					
 					switch (balance(b, c, a)) {
 					case THREE:
 						after3NormalCoin(double_unsure_1compare[j]);
-						after3NormalCoin(double_unsure_1compare[j + 1]);
-						after3NormalCoin(double_unsure_1compare[j + 2]);
+						after3NormalCoin(double_unsure_1compare[j+1]);
+						after3NormalCoin(double_unsure_1compare[j+2]);
 						break;
 					case EQUAL_ALL:
 						after3BadCoin(double_unsure_1compare[j]);
@@ -280,12 +280,12 @@ void confirmCompare1() {
 				}
 			}
 			else {
-				b[0] = normal_coin[0];
-				c[0] = normal_coin[1];
+					b[0] = normal_coin[0];
+					c[0] = normal_coin[1];
 
 				for (j = 0; j < double_unsure_count; j = j + 3) {
 					a[0] = double_unsure_1compare[j];
-
+					
 					switch (balance(b, c, a)) {
 					case EQUAL_ONETWO:
 						after3BadCoin(double_unsure_1compare[j]);
@@ -464,7 +464,7 @@ void allBadCoin(int set[]) {
 }
 
 void allCase(int result, int check) {
-	switch (result) {
+	switch (result) {	
 	case ONE:
 		normal_coin[normal_count] = a[0];
 		bad_coin[bad_count] = b[0];
